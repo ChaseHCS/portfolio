@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Terminal</title>
+    <link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="profile-section">
+                <div class="headshot">
+                    <img src="../assets/pfpic.png" alt="Profile Photo" />
+                </div>
+                <div class="name-title">
+                    <h2>Chase Hanson</h2>
+                    <p>Cybersecurity Researcher</p>
+                </div>
+                <div class="resume-section">
+                    <button class="resume-btn" onclick="downloadResume()">
+                        <span class="resume-icon"></span>
+                        Download Resume
+                    </button>
+                </div>
+                <div class="contact-info">
+                    <h3>Contact</h3>
+                    <p>mrchasehanson@gmail.com</p>
+                    <p>Location: Plymouth, MA</p>
+                </div>
+                <div class="links-section">
+                    <h3>Links</h3>
+                    <ul>
+                        <li><a href="#" target="_blank">GitHub</a></li>
+                        <li><a href="#" target="_blank">LinkedIn</a></li>
+                        <li><a href="#" target="_blank">Twitter</a></li>
+                        <li><a href="#" target="_blank">Portfolio</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <span class="btn close"></span>
+                    <span class="btn minimize"></span>
+                    <span class="btn maximize"></span>
+                </div>
+                <div class="terminal-title">chase@portfolio: ~/Projects</div>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-content">
+                    <div class="command-line">
+                        <span class="prompt">chase@portfolio<span class="colon">:</span><span class="tilde">~/Projects</span><span class="dollar">$</span> </span>
+                        <span class="command">cat about.txt</span>
+                    </div>
+                    <div class="output">
+                        <h1>Projects Directory</h1>
+                        <p>This directory showcases my projects, ranging from</p>
+                        <p>LLM training and experimentation to hacking and cybersecurity tools.</p>
+                        <p>Most of the time I choose my projects based on what is interesting to at the time.</p>
+                    </div>
+
+                    <div class="command-line">
+                        <span class="prompt">chase@portfolio<span class="colon">:</span><span class="tilde">~/Projects</span><span class="dollar">$</span> </span>
+                        <span class="command">ls -la</span>
+                    </div>
+                    <div class="output">
+                        <div class="file-list">
+                            <div class="file-item">
+                                <span class="permissions">drwxr-xr-x</span>
+                                <span class="date"></span>
+                                <span class="filename"><a href="../index.html" class="file-link">..</a></span>
+                            </div>
+                            <div class="file-item">
+                                <span class="permissions">-rw-r--r--</span>
+                                <span class="date">2024-12-19</span>
+                                <span class="filename"><a href="#" onclick="showMarkdown('test.md')" class="file-link">test.md</a></span>
+                            </div>
+                            <div class="file-item">
+                                <span class="permissions">-rw-r--r--</span>
+                                <span class="date">2024-01-10</span>
+                                <span class="filename" style="color: #c7c7c7;">about.txt</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="command-line active">
+                        <span class="prompt">chase@portfolio<span class="colon">:</span><span class="tilde">~/Projects</span><span class="dollar">$</span> </span>
+                        <span class="command" id="typed-command"></span>
+                        <span class="cursor">█</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../typing-animation.js"></script>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                initializeTypingAnimation('Projects');
+            });
+
+            function downloadResume() {
+                const link = document.createElement('a');
+                link.href = '../assets/resume.pdf';
+                link.download = 'resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            async function showMarkdown(filename) {
+                try {
+                    const response = await fetch(`./${filename}`);
+                    const markdownContent = await response.text();
+
+                    // Simple markdown to HTML conversion
+                    const htmlContent = markdownToHtml(markdownContent);
+
+                    const terminalContent = document.querySelector('.terminal-content');
+                    terminalContent.innerHTML = `
+                        <div class="command-line">
+                            <span class="prompt">chase@portfolio<span class="colon">:</span><span class="tilde">~/Projects</span><span class="dollar">$</span> </span>
+                            <span class="command">cat ${filename}</span>
+                        </div>
+                        <div class="output">
+                            ${htmlContent}
+                            <p style="margin-top: 20px;"><a href="#" onclick="location.reload()" style="color: #FA3A62;">← Back to directory listing</a></p>
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error('Error loading markdown file:', error);
+                }
+            }
+
+            function markdownToHtml(markdown) {
+                return markdown
+                    // Images
+                    .replace(/!\[([^\]]*)\]\(([^)]+)\)/gim, '<img src="$2" alt="$1" style="max-width: 100%; height: auto; margin: 10px 0; border-radius: 4px;">')
+                    // Links
+                    .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" style="color: #FA3A62; text-decoration: underline;" target="_blank">$1</a>')
+                    // Headers
+                    .replace(/^# (.*$)/gim, '<h1 style="color: #FA5741; font-size: 24px; margin-bottom: 10px;">$1</h1>')
+                    .replace(/^## (.*$)/gim, '<h2 style="color: #FA5741; font-size: 20px; margin: 15px 0 8px 0;">$1</h2>')
+                    .replace(/^### (.*$)/gim, '<h3 style="color: #FA5741; font-size: 18px; margin: 12px 0 6px 0;">$1</h3>')
+                    // Code blocks
+                    .replace(/```([\s\S]*?)```/gim, '<pre style="background: #1e1e1e; color: #c7c7c7; padding: 15px; border-radius: 4px; margin: 15px 0; overflow-x: auto; border: 1px solid #333;"><code>$1</code></pre>')
+                    // Inline code
+                    .replace(/`(.*?)`/gim, '<code style="background: #333; color: #FA3A62; padding: 2px 6px; border-radius: 3px; font-family: monospace;">$1</code>')
+                    // Bold text
+                    .replace(/\*\*(.*?)\*\*/gim, '<strong style="color: #FA5741; font-weight: bold;">$1</strong>')
+                    // Italic text (make sure this comes after bold)
+                    .replace(/(?<!\*)\*([^*]+)\*(?!\*)/gim, '<em style="color: #c7c7c7; font-style: italic;">$1</em>')
+                    // Lists
+                    .replace(/^\* (.*$)/gim, '<li style="color: #c7c7c7; margin: 3px 0;">$1</li>')
+                    .replace(/^\- (.*$)/gim, '<li style="color: #c7c7c7; margin: 3px 0;">$1</li>')
+                    // Convert line breaks to paragraphs
+                    .split('\n\n')
+                    .map(paragraph => {
+                        if (paragraph.trim() === '') return '';
+                        if (paragraph.includes('<h1>') || paragraph.includes('<h2>') || paragraph.includes('<h3>') || 
+                            paragraph.includes('<pre>') || paragraph.includes('<li>')) {
+                            return paragraph;
+                        }
+                        return `<p style="color: #c7c7c7; margin: 10px 0; line-height: 1.6;">${paragraph}</p>`;
+                    })
+                    .join('')
+                    // Wrap list items in ul tags
+                    .replace(/(<li[^>]*>.*?<\/li>)/gs, '<ul style="margin-left: 20px; margin: 10px 0;">$1</ul>');
+            }
+</script>
+</body>
+</html>
