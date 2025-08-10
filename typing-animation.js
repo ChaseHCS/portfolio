@@ -1,5 +1,4 @@
 
-// Centralized typing animation configuration and logic
 const typingAnimations = {
     main: [
         'help',
@@ -52,7 +51,6 @@ function initializeTypingAnimation(pageType = 'main') {
     
     if (!typedCommand) return;
 
-    // Clear any existing intervals
     clearInterval(typingInterval);
     clearInterval(deleteInterval);
     clearTimeout(pauseTimeout);
@@ -66,7 +64,6 @@ function initializeTypingAnimation(pageType = 'main') {
                 currentChar++;
             } else {
                 clearInterval(typingInterval);
-                // Pause before deleting
                 pauseTimeout = setTimeout(startDeleting, 800);
             }
         }, 60);
@@ -82,17 +79,14 @@ function initializeTypingAnimation(pageType = 'main') {
             } else {
                 clearInterval(deleteInterval);
                 currentCommandIndex = (currentCommandIndex + 1) % commands.length;
-                // Pause before typing next command
                 pauseTimeout = setTimeout(startTyping, 200);
             }
         }, 50);
     }
 
-    // Start the animation after initial delay
     pauseTimeout = setTimeout(startTyping, 2000);
 }
 
-// Clean up function for when page is unloaded
 window.addEventListener('beforeunload', function() {
     clearInterval(typingInterval);
     clearInterval(deleteInterval);
