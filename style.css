@@ -211,8 +211,78 @@ html, body {
     flex: 1;
     padding: 20px;
     background-color: #21222c;
-    border-radius: 0 0 2px 2px;
     overflow-y: auto;
+}
+
+.tmux-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #191a21;
+    border-radius: 0 0 2px 2px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: 'Ubuntu', monospace;
+    flex-shrink: 0;
+}
+
+.tmux-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.tmux-session {
+    color: #f8f8f2;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tmux-windows {
+    display: flex;
+    gap: 4px;
+}
+
+.tmux-window {
+    color: #6272a4;
+    padding: 1px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.tmux-window.active {
+    background: #44475a;
+    color: #ff79c6;
+    font-weight: bold;
+}
+
+.tmux-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.tmux-segment {
+    padding: 3px 14px 3px 16px;
+    color: #191a21;
+    font-weight: bold;
+    white-space: nowrap;
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.segment-cyan {
+    background: #8be9fd;
+}
+
+.segment-green {
+    background: #50fa7b;
+}
+
+.segment-pink {
+    background: #ff79c6;
 }
 
 .terminal-content {
@@ -440,6 +510,14 @@ html, body {
 
     .terminal-content {
         font-size: 12px;
+    }
+
+    .tmux-status-bar {
+        font-size: 10px;
+    }
+
+    .tmux-segment {
+        padding: 2px 10px 2px 12px;
     }
 
     .file-item {

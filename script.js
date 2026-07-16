@@ -1,7 +1,19 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeTypingAnimation('main');
+    updateTmuxClock();
+    setInterval(updateTmuxClock, 1000);
 });
+
+function updateTmuxClock() {
+    const clock = document.getElementById('tmux-clock');
+    const date = document.getElementById('tmux-date');
+    if (!clock || !date) return;
+
+    const now = new Date();
+    clock.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+    date.textContent = now.toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short' });
+}
 
 function downloadResume() {
     const link = document.createElement('a');
