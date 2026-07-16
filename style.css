@@ -152,65 +152,11 @@ html, body {
     flex-direction: column;
 }
 
-.terminal-header {
-    background: linear-gradient(to bottom, #44475a, #383a4c);
-    padding: 6px 12px;
-    border-radius: 2px 2px 0 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #21222c;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.terminal-buttons {
-    display: flex;
-    gap: 6px;
-}
-
-.terminal-title {
-    color: #f8f8f2;
-    font-size: 12px;
-    font-weight: bold;
-    flex: 1;
-    text-align: center;
-    margin-left: -60px; /* Compensate for button width to center title */
-}
-
-.btn {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.close {
-    background: linear-gradient(to bottom, #ff6e6e, #ff5555);
-}
-
-.minimize {
-    background: linear-gradient(to bottom, #f1fa8c, #e0c94f);
-}
-
-.maximize {
-    background: linear-gradient(to bottom, #69ff94, #50fa7b);
-}
-
-.btn:hover {
-    filter: brightness(1.1);
-}
-
-.btn:active {
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
 .terminal-body {
     flex: 1;
     padding: 20px;
     background-color: #21222c;
+    border-radius: 2px 2px 0 0;
     overflow-y: auto;
 }
 
