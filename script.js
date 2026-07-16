@@ -39,7 +39,7 @@ async function showMarkdown(filename) {
             </div>
             <div class="output">
                 ${htmlContent}
-                <p style="margin-top: 20px;"><a href="#" onclick="location.reload()" style="color: #FA3A62;">← Back to directory listing</a></p>
+                <p style="margin-top: 20px;"><a href="#" onclick="location.reload()" style="color: #ff79c6;">← Back to directory listing</a></p>
             </div>
         `;
     } catch (error) {
@@ -52,22 +52,22 @@ function markdownToHtml(markdown) {
         // Images
         .replace(/!\[([^\]]*)\]\(([^)]+)\)/gim, '<img src="$2" alt="$1" style="max-width: 100%; height: auto; margin: 10px 0; border-radius: 4px;">')
         // Links
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" style="color: #FA3A62; text-decoration: underline;" target="_blank">$1</a>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" style="color: #8be9fd; text-decoration: underline;" target="_blank">$1</a>')
         // Headers
-        .replace(/^# (.*$)/gim, '<h1 style="color: #FA5741; font-size: 24px; margin-bottom: 10px;">$1</h1>')
-        .replace(/^## (.*$)/gim, '<h2 style="color: #FA5741; font-size: 20px; margin: 15px 0 8px 0;">$1</h2>')
-        .replace(/^### (.*$)/gim, '<h3 style="color: #FA5741; font-size: 18px; margin: 12px 0 6px 0;">$1</h3>')
+        .replace(/^# (.*$)/gim, '<h1 style="color: #ff79c6; font-size: 24px; margin-bottom: 10px;">$1</h1>')
+        .replace(/^## (.*$)/gim, '<h2 style="color: #ff79c6; font-size: 20px; margin: 15px 0 8px 0;">$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3 style="color: #ff79c6; font-size: 18px; margin: 12px 0 6px 0;">$1</h3>')
         // Code blocks
-        .replace(/```([\s\S]*?)```/gim, '<pre style="background: #1e1e1e; color: #c7c7c7; padding: 15px; border-radius: 4px; margin: 15px 0; overflow-x: auto; border: 1px solid #333;"><code>$1</code></pre>')
+        .replace(/```([\s\S]*?)```/gim, '<pre style="background: #191a21; color: #f8f8f2; padding: 15px; border-radius: 4px; margin: 15px 0; overflow-x: auto; border: 1px solid #44475a;"><code>$1</code></pre>')
         // Inline code
-        .replace(/`(.*?)`/gim, '<code style="background: #333; color: #FA3A62; padding: 2px 6px; border-radius: 3px; font-family: monospace;">$1</code>')
+        .replace(/`(.*?)`/gim, '<code style="background: #44475a; color: #50fa7b; padding: 2px 6px; border-radius: 3px; font-family: monospace;">$1</code>')
         // Bold text
-        .replace(/\*\*(.*?)\*\*/gim, '<strong style="color: #FA5741; font-weight: bold;">$1</strong>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong style="color: #bd93f9; font-weight: bold;">$1</strong>')
         // Italic text (make sure this comes after bold)
-        .replace(/(?<!\*)\*([^*]+)\*(?!\*)/gim, '<em style="color: #c7c7c7; font-style: italic;">$1</em>')
+        .replace(/(?<!\*)\*([^*]+)\*(?!\*)/gim, '<em style="color: #f8f8f2; font-style: italic;">$1</em>')
         // Lists
-        .replace(/^\* (.*$)/gim, '<li style="color: #c7c7c7; margin: 3px 0;">$1</li>')
-        .replace(/^\- (.*$)/gim, '<li style="color: #c7c7c7; margin: 3px 0;">$1</li>')
+        .replace(/^\* (.*$)/gim, '<li style="color: #f8f8f2; margin: 3px 0;">$1</li>')
+        .replace(/^\- (.*$)/gim, '<li style="color: #f8f8f2; margin: 3px 0;">$1</li>')
         // Convert line breaks to paragraphs
         .split('\n\n')
         .map(paragraph => {
@@ -76,7 +76,7 @@ function markdownToHtml(markdown) {
                 paragraph.includes('<pre>') || paragraph.includes('<li>')) {
                 return paragraph;
             }
-            return `<p style="color: #c7c7c7; margin: 10px 0; line-height: 1.6;">${paragraph}</p>`;
+            return `<p style="color: #f8f8f2; margin: 10px 0; line-height: 1.6;">${paragraph}</p>`;
         })
         .join('')
         // Wrap list items in ul tags
