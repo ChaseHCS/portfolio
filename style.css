@@ -8,7 +8,7 @@
 html, body {
     height: 100%;
     width: 100%;
-    background-color: #0c0c0c;
+    background-color: #191a21;
     font-family: 'Ubuntu', monospace;
     overflow: hidden;
 }
@@ -23,7 +23,7 @@ html, body {
 
 .sidebar {
     width: 250px;
-    background: #000;
+    background: #21222c;
     border-radius: 2px;
     padding: 20px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
@@ -45,37 +45,37 @@ html, body {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 3px solid #FA3A62;
+    border: 3px solid #ff79c6;
     object-fit: cover;
 }
 
 .name-title {
     text-align: center;
-    color: #c7c7c7;
+    color: #f8f8f2;
 }
 
 .name-title h2 {
-    color: #FA5741;
+    color: #bd93f9;
     font-size: 18px;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
 .name-title p {
-    color: #FA3A62;
+    color: #ff79c6;
     font-size: 14px;
     margin: 0;
 }
 
 .contact-info, .links-section {
-    color: #c7c7c7;
+    color: #f8f8f2;
 }
 
 .contact-info h3, .links-section h3 {
-    color: #FA5741;
+    color: #bd93f9;
     font-size: 16px;
     margin-bottom: 10px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #44475a;
     padding-bottom: 5px;
 }
 
@@ -90,8 +90,8 @@ html, body {
 }
 
 .resume-btn {
-    background: linear-gradient(135deg, #FA3A62, #E02850);
-    color: #fff;
+    background: linear-gradient(135deg, #ff79c6, #bd93f9);
+    color: #191a21;
     border: none;
     padding: 12px 20px;
     border-radius: 6px;
@@ -102,20 +102,20 @@ html, body {
     align-items: center;
     gap: 8px;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(250, 58, 98, 0.3);
+    box-shadow: 0 2px 8px rgba(255, 121, 198, 0.3);
     width: 100%;
     justify-content: center;
 }
 
 .resume-btn:hover {
-    background: linear-gradient(135deg, #E02850, #C02040);
+    background: linear-gradient(135deg, #bd93f9, #ff79c6);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(250, 58, 98, 0.4);
+    box-shadow: 0 4px 12px rgba(189, 147, 249, 0.4);
 }
 
 .resume-btn:active {
     transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(250, 58, 98, 0.3);
+    box-shadow: 0 2px 6px rgba(255, 121, 198, 0.3);
 }
 
 .resume-icon {
@@ -132,20 +132,20 @@ html, body {
 }
 
 .links-section a {
-    color: #FA3A62;
+    color: #8be9fd;
     text-decoration: none;
     font-size: 14px;
     transition: color 0.3s;
 }
 
 .links-section a:hover {
-    color: #FA5741;
+    color: #ff79c6;
     text-decoration: underline;
 }
 
 .terminal {
     flex: 1;
-    background-color: #1e1e1e;
+    background-color: #282a36;
     border-radius: 2px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     display: flex;
@@ -153,13 +153,13 @@ html, body {
 }
 
 .terminal-header {
-    background: linear-gradient(to bottom, #4a4a4a, #3a3a3a);
+    background: linear-gradient(to bottom, #44475a, #383a4c);
     padding: 6px 12px;
     border-radius: 2px 2px 0 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid #21222c;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -169,7 +169,7 @@ html, body {
 }
 
 .terminal-title {
-    color: #ffffff;
+    color: #f8f8f2;
     font-size: 12px;
     font-weight: bold;
     flex: 1;
@@ -187,16 +187,16 @@ html, body {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.close { 
-    background: linear-gradient(to bottom, #ff5f56, #e0443e);
+.close {
+    background: linear-gradient(to bottom, #ff6e6e, #ff5555);
 }
 
-.minimize { 
-    background: linear-gradient(to bottom, #ffbd2e, #ffaa00);
+.minimize {
+    background: linear-gradient(to bottom, #f1fa8c, #e0c94f);
 }
 
-.maximize { 
-    background: linear-gradient(to bottom, #27ca3f, #1aad2b);
+.maximize {
+    background: linear-gradient(to bottom, #69ff94, #50fa7b);
 }
 
 .btn:hover {
@@ -210,13 +210,13 @@ html, body {
 .terminal-body {
     flex: 1;
     padding: 20px;
-    background-color: #000;
+    background-color: #21222c;
     border-radius: 0 0 2px 2px;
     overflow-y: auto;
 }
 
 .terminal-content {
-    color: #FA3A62;
+    color: #f8f8f2;
     font-size: 14px;
     line-height: 1.4;
 }
@@ -228,21 +228,21 @@ html, body {
 }
 
 .prompt {
-    color: #FA3A62;
+    color: #50fa7b;
     font-weight: bold;
 }
 
 .prompt .tilde {
-    color: #87ceeb;
+    color: #8be9fd;
 }
 
 .prompt .colon,
 .prompt .dollar {
-    color: #ffffff;
+    color: #f8f8f2;
 }
 
 .command {
-    color: #ffffff;
+    color: #f8f8f2;
     margin-left: 5px;
 }
 
@@ -252,13 +252,13 @@ html, body {
 }
 
 .output h1 {
-    color: #FA5741;
+    color: #ff79c6;
     font-size: 24px;
     margin-bottom: 10px;
 }
 
 .output p {
-    color: #c7c7c7;
+    color: #f8f8f2;
     margin: 5px 0;
 }
 
@@ -269,17 +269,17 @@ html, body {
 .file-item {
     display: flex;
     margin: 3px 0;
-    color: #c7c7c7;
+    color: #f8f8f2;
 }
 
 .permissions {
     width: 120px;
-    color: #888;
+    color: #6272a4;
 }
 
 .date {
     width: 100px;
-    color: #888;
+    color: #6272a4;
 }
 
 .filename {
@@ -287,31 +287,31 @@ html, body {
 }
 
 .filename a {
-    color: #FA3A62;
+    color: #bd93f9;
     text-decoration: none;
     transition: color 0.3s;
     font-weight: bold;
 }
 
 .filename a:hover {
-    color: #FA5741;
+    color: #ff79c6;
     text-decoration: underline;
 }
 
 .file-link {
-    color: #FA3A62;
+    color: #bd93f9;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
 }
 
 .file-link:hover {
-    color: #FA5741;
+    color: #ff79c6;
     text-decoration: underline;
 }
 
 .cursor {
-    color: #ffffff;
+    color: #f8f8f2;
     animation: blink 1s infinite;
 }
 
@@ -331,22 +331,22 @@ html, body {
 }
 
 .terminal-body::-webkit-scrollbar-track {
-    background: #1e1e1e;
+    background: #282a36;
 }
 
 .sidebar::-webkit-scrollbar-track {
-    background: #1a1a1a;
+    background: #21222c;
 }
 
 .terminal-body::-webkit-scrollbar-thumb,
 .sidebar::-webkit-scrollbar-thumb {
-    background: #555;
+    background: #6272a4;
     border-radius: 4px;
 }
 
 .terminal-body::-webkit-scrollbar-thumb:hover,
 .sidebar::-webkit-scrollbar-thumb:hover {
-    background: #777;
+    background: #8b95c9;
 }
 
 /* Responsive design */
@@ -356,33 +356,33 @@ html, body {
         padding: 15px 10px;
         transition: width 0.3s ease;
     }
-    
+
     .sidebar:hover {
         width: 250px;
         padding: 20px;
     }
-    
+
     .profile-section {
         opacity: 0;
         transition: opacity 0.3s ease;
         pointer-events: none;
     }
-    
+
     .sidebar:hover .profile-section {
         opacity: 1;
         pointer-events: auto;
     }
-    
+
     .sidebar::before {
         content: "☰";
-        color: #FA3A62;
+        color: #ff79c6;
         font-size: 24px;
         display: block;
         text-align: center;
         margin-bottom: 10px;
         transition: opacity 0.3s ease;
     }
-    
+
     .sidebar:hover::before {
         opacity: 0;
     }
@@ -393,60 +393,60 @@ html, body {
         padding: 1vh 2vw;
         gap: 10px;
     }
-    
+
     .sidebar {
         width: 50px;
         padding: 10px 5px;
     }
-    
+
     .sidebar:hover {
         width: 200px;
         padding: 15px;
     }
-    
+
     .sidebar::before {
         content: "☰";
-        color: #FA3A62;
+        color: #ff79c6;
         font-size: 20px;
         display: block;
         text-align: center;
         margin-bottom: 10px;
         transition: opacity 0.3s ease;
     }
-    
+
     .sidebar:hover::before {
         opacity: 0;
     }
-    
+
     .profile-section {
         opacity: 0;
         transition: opacity 0.3s ease;
         pointer-events: none;
     }
-    
+
     .sidebar:hover .profile-section {
         opacity: 1;
         pointer-events: auto;
     }
-    
+
     .headshot img {
         width: 80px;
         height: 80px;
     }
-    
+
     .terminal-body {
         padding: 15px;
     }
-    
+
     .terminal-content {
         font-size: 12px;
     }
-    
+
     .file-item {
         flex-direction: column;
         gap: 2px;
     }
-    
+
     .permissions, .date {
         width: auto;
     }
