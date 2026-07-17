@@ -324,11 +324,10 @@ html, body {
 }
 
 .pager-status {
-    position: sticky;
-    bottom: 0;
     background: #21222c;
-    padding: 8px 0 2px 0;
+    padding: 6px 20px;
     font-size: 13px;
+    flex-shrink: 0;
 }
 
 .pager-status a {

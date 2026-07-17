@@ -43,10 +43,15 @@ async function showMarkdown(filename) {
             <div class="output">
                 ${htmlContent}
             </div>
-            <div class="pager-status">
-                <a href="#" onclick="closeMarkdown(); return false;"><span class="pager-end">${filename} (END)</span><span class="pager-hint"> — press q to return</span></a>
-            </div>
         `;
+
+        const pager = document.createElement('div');
+        pager.className = 'pager-status';
+        pager.innerHTML = `<a href="#" onclick="closeMarkdown(); return false;"><span class="pager-end">${filename} (END)</span><span class="pager-hint"> — press q to return</span></a>`;
+        const terminal = document.querySelector('.terminal');
+        terminal.querySelector('.pager-status')?.remove();
+        terminal.insertBefore(pager, document.querySelector('.tmux-status-bar'));
+
         document.querySelector('.terminal-body').scrollTop = 0;
     } catch (error) {
         console.error('Error loading markdown file:', error);
@@ -58,6 +63,7 @@ function closeMarkdown() {
     const terminalContent = document.querySelector('.terminal-content');
     terminalContent.innerHTML = directoryListingHTML;
     directoryListingHTML = null;
+    document.querySelector('.pager-status')?.remove();
     document.querySelector('.terminal-body').scrollTop = 0;
     initializeTypingAnimation('main');
 }
