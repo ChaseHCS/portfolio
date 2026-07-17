@@ -140,7 +140,6 @@ html, body {
 
 .links-section a:hover {
     color: #ff79c6;
-    text-decoration: underline;
 }
 
 .terminal {
@@ -311,7 +310,6 @@ html, body {
 
 .filename a:hover {
     color: #ff79c6;
-    text-decoration: underline;
 }
 
 .file-link {
@@ -323,7 +321,6 @@ html, body {
 
 .file-link:hover {
     color: #ff79c6;
-    text-decoration: underline;
 }
 
 .cursor {

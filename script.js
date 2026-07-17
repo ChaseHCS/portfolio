@@ -39,7 +39,7 @@ async function showMarkdown(filename) {
             </div>
             <div class="output">
                 ${htmlContent}
-                <p style="margin-top: 20px;"><a href="#" onclick="location.reload()" style="color: #ff79c6;">← Back to directory listing</a></p>
+                <p style="margin-top: 20px;"><a href="#" onclick="location.reload()" style="color: #ff79c6; text-decoration: none;">← Back to directory listing</a></p>
             </div>
         `;
     } catch (error) {
