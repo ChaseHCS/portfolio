@@ -323,6 +323,34 @@ html, body {
     color: #ff79c6;
 }
 
+.pager-status {
+    position: sticky;
+    bottom: 0;
+    background: #21222c;
+    padding: 8px 0 2px 0;
+    font-size: 13px;
+}
+
+.pager-status a {
+    text-decoration: none;
+}
+
+.pager-end {
+    background: #f8f8f2;
+    color: #191a21;
+    font-weight: bold;
+    padding: 1px 7px;
+}
+
+.pager-hint {
+    color: #6272a4;
+    transition: color 0.3s;
+}
+
+.pager-status a:hover .pager-hint {
+    color: #ff79c6;
+}
+
 .cursor {
     color: #f8f8f2;
     animation: blink 1s infinite;

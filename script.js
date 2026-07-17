@@ -24,6 +24,8 @@ function downloadResume() {
     document.body.removeChild(link);
 }
 
+let directoryListingHTML = null;
+
 async function showMarkdown(filename) {
     try {
         const response = await fetch(`./${filename}`);
@@ -32,20 +34,39 @@ async function showMarkdown(filename) {
         const htmlContent = markdownToHtml(markdownContent);
 
         const terminalContent = document.querySelector('.terminal-content');
+        directoryListingHTML = terminalContent.innerHTML;
         terminalContent.innerHTML = `
             <div class="command-line">
                 <span class="prompt">chase@portfolio<span class="colon">:</span><span class="tilde">~</span><span class="dollar">$</span> </span>
-                <span class="command">cat ${filename}</span>
+                <span class="command">less ${filename}</span>
             </div>
             <div class="output">
                 ${htmlContent}
-                <p style="margin-top: 20px;"><a href="#" onclick="location.reload()" style="color: #ff79c6; text-decoration: none;">← Back to directory listing</a></p>
+            </div>
+            <div class="pager-status">
+                <a href="#" onclick="closeMarkdown(); return false;"><span class="pager-end">${filename} (END)</span><span class="pager-hint"> — press q to return</span></a>
             </div>
         `;
+        document.querySelector('.terminal-body').scrollTop = 0;
     } catch (error) {
         console.error('Error loading markdown file:', error);
     }
 }
+
+function closeMarkdown() {
+    if (!directoryListingHTML) return;
+    const terminalContent = document.querySelector('.terminal-content');
+    terminalContent.innerHTML = directoryListingHTML;
+    directoryListingHTML = null;
+    document.querySelector('.terminal-body').scrollTop = 0;
+    initializeTypingAnimation('main');
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'q' && !e.ctrlKey && !e.metaKey && !e.altKey && directoryListingHTML) {
+        closeMarkdown();
+    }
+});
 
 function markdownToHtml(markdown) {
     return markdown
