@@ -277,6 +277,13 @@ html, body {
     margin: 5px 0;
 }
 
+.output mark {
+    background: #f1fa8c;
+    color: #191a21;
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
 .file-list {
     font-family: 'Courier New', monospace;
 }
