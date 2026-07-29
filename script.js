@@ -85,7 +85,7 @@ function initRat() {
     function tick(now) {
         const dt = Math.min((now - last) / 1000, 0.05);
         last = now;
-        theta += 0.5 * dt;    // one full spin roughly every 12.5 seconds
+        theta += 1 * dt;    // one full spin roughly every 6 seconds
         drawFrame(theta);
         requestAnimationFrame(tick);
     }
