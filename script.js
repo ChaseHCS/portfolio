@@ -3,124 +3,119 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTypingAnimation('main');
     updateTmuxClock();
     setInterval(updateTmuxClock, 1000);
-    initBlackHole();
+    initGalaxy();
 });
 
-function initBlackHole() {
-    const canvas = document.getElementById('blackhole-canvas');
+function initGalaxy() {
+    const canvas = document.getElementById('galaxy-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    const size = 64;    // low-res buffer; CSS upscales it with image-rendering: pixelated
-    canvas.width = size;
-    canvas.height = size;
+    const size = 140;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    ctx.scale(dpr, dpr);
 
     const cx = size / 2, cy = size / 2;
-    const horizon = 10;      // event horizon radius
-    const squash = 0.16;     // near edge-on disk, like Gargantua
-    const colors = ['#f8f8f2', '#ffd9a0', '#ffb86c', '#f1fa8c'];
+    const tilt = 0.55;    // viewing inclination of the galactic plane
+    const coreColors = ['#f8f8f2', '#f1fa8c', '#ffb86c'];
+    const armColors = ['#f8f8f2', '#8be9fd', '#bd93f9', '#eaf6ff'];
 
-    // thin accretion disk: particles on Keplerian orbits (inner ones move faster)
-    const particles = [];
-    for (let i = 0; i < 520; i++) {
-        const r = horizon + 2 + Math.pow(Math.random(), 2) * 18;
-        particles.push({
+    // two logarithmic spiral arms with scatter, denser toward the core
+    const stars = [];
+    for (let i = 0; i < 650; i++) {
+        const arm = i % 2;
+        const r = 5 + Math.pow(Math.random(), 0.7) * 60;
+        const spread = 0.25 + (r / 65) * 0.6;
+        const phi = arm * Math.PI + Math.log(r / 5) / 0.3 + (Math.random() - 0.5) * spread;
+        const palette = r < 18 ? coreColors : armColors;
+        stars.push({
             r,
-            a: Math.random() * Math.PI * 2,
-            w: 30 / Math.pow(r, 1.5),
-            c: colors[Math.floor(Math.random() * colors.length)]
+            phi,
+            s: 0.4 + Math.random() * 0.8,
+            alpha: 0.35 + Math.random() * 0.65,
+            c: palette[Math.floor(Math.random() * palette.length)]
+        });
+    }
+    // faint halo field stars
+    for (let i = 0; i < 130; i++) {
+        stars.push({
+            r: Math.random() * 66,
+            phi: Math.random() * Math.PI * 2,
+            s: 0.3 + Math.random() * 0.5,
+            alpha: 0.1 + Math.random() * 0.25,
+            c: '#f8f8f2'
         });
     }
 
-    function heatAlpha(p, m) {
-        // brighter toward the horizon, doppler-beamed on the approaching side
-        const heat = 1 - (p.r - horizon) / 22;
-        return Math.min(1, (0.4 + 0.6 * heat) * (1 + 0.5 * Math.cos(m)));
-    }
-
-    function plot(x, y, color, alpha) {
-        ctx.globalAlpha = alpha;
-        ctx.fillStyle = color;
-        ctx.fillRect(x | 0, y | 0, 1, 1);
-    }
-
-    // near side of the disk: a flat band crossing in front of the sphere
-    function drawFront(list) {
-        for (const p of list) {
-            const m = p.a % (Math.PI * 2);
-            const x = cx + Math.cos(m) * p.r;
-            const y = cy - Math.sin(m) * p.r * squash;
-            plot(x, y, p.c, heatAlpha(p, m));
-        }
-        ctx.globalAlpha = 1;
-    }
-
-    // far side of the disk: gravitationally lensed into arcs over and under
-    // the sphere instead of hiding behind it, like Gargantua's halo
-    function drawLensed(list) {
-        for (const p of list) {
-            const m = p.a % (Math.PI * 2);
-            const u = (m - Math.PI) / Math.PI;      // 0..1 across the far side
-            const psi = Math.PI * (1 - u);          // side -> over the top -> side
-            const blend = Math.sin(psi);            // how "bent" the light path is
-            const alpha = heatAlpha(p, m);
-
-            // primary image: arc over the top, hugging the photon ring
-            const ringR = horizon + 2 + (p.r - horizon) * 0.12;
-            const R = p.r + (ringR - p.r) * blend;
-            plot(cx + Math.cos(psi) * R, cy - Math.sin(psi) * R, p.c, alpha);
-
-            // secondary image: dimmer, tighter mirror arc under the sphere
-            const ringR2 = horizon + 1 + (p.r - horizon) * 0.07;
-            const R2 = p.r + (ringR2 - p.r) * blend;
-            plot(cx + Math.cos(psi) * R2, cy + Math.sin(psi) * R2, p.c, alpha * 0.45);
-        }
-        ctx.globalAlpha = 1;
-    }
-
-    function drawHole() {
-        const glow = ctx.createRadialGradient(cx, cy, horizon, cx, cy, horizon * 2);
-        glow.addColorStop(0, 'rgba(255, 184, 108, 0.3)');
-        glow.addColorStop(1, 'rgba(255, 184, 108, 0)');
-        ctx.fillStyle = glow;
-        ctx.beginPath();
-        ctx.arc(cx, cy, horizon * 2, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.strokeStyle = '#fff8f0';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.arc(cx, cy, horizon + 0.5, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.fillStyle = '#000';
-        ctx.beginPath();
-        ctx.arc(cx, cy, horizon, 0, Math.PI * 2);
-        ctx.fill();
-    }
-
-    function drawFrame() {
+    function drawFrame(theta) {
         ctx.clearRect(0, 0, size, size);
-        const front = [], back = [];
-        for (const p of particles) {
-            const m = p.a % (Math.PI * 2);
-            (Math.sin(m) < 0 ? back : front).push(p);
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.scale(1, tilt);
+
+        // diffuse disc glow
+        let g = ctx.createRadialGradient(0, 0, 0, 0, 0, 64);
+        g.addColorStop(0, 'rgba(241, 250, 140, 0.14)');
+        g.addColorStop(0.5, 'rgba(189, 147, 249, 0.08)');
+        g.addColorStop(1, 'rgba(189, 147, 249, 0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(0, 0, 64, 0, Math.PI * 2);
+        ctx.fill();
+
+        // central bar, rotating with the stars
+        ctx.rotate(theta);
+        ctx.scale(1, 0.4);
+        g = ctx.createRadialGradient(0, 0, 0, 0, 0, 24);
+        g.addColorStop(0, 'rgba(255, 184, 108, 0.35)');
+        g.addColorStop(1, 'rgba(255, 184, 108, 0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(0, 0, 24, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // bright galactic bulge
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.scale(1, tilt);
+        g = ctx.createRadialGradient(0, 0, 0, 0, 0, 15);
+        g.addColorStop(0, 'rgba(248, 248, 242, 0.9)');
+        g.addColorStop(0.4, 'rgba(255, 184, 108, 0.4)');
+        g.addColorStop(1, 'rgba(255, 184, 108, 0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(0, 0, 15, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        for (const st of stars) {
+            const a = st.phi + theta;
+            const x = cx + Math.cos(a) * st.r;
+            const y = cy + Math.sin(a) * st.r * tilt;
+            ctx.globalAlpha = st.alpha;
+            ctx.fillStyle = st.c;
+            ctx.beginPath();
+            ctx.arc(x, y, st.s, 0, Math.PI * 2);
+            ctx.fill();
         }
-        drawLensed(back);
-        drawHole();
-        drawFront(front);
+        ctx.globalAlpha = 1;
     }
 
+    let theta = 0;
     let last = performance.now();
 
     function tick(now) {
         const dt = Math.min((now - last) / 1000, 0.05);
         last = now;
-        for (const p of particles) p.a += p.w * dt;
-        drawFrame();
+        theta += 0.06 * dt;    // one full revolution roughly every 105 seconds
+        drawFrame(theta);
         requestAnimationFrame(tick);
     }
 
-    drawFrame();
+    drawFrame(0);
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         requestAnimationFrame(tick);
     }
