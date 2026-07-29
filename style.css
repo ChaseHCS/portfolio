@@ -42,8 +42,9 @@ html, body {
 }
 
 .headshot canvas {
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
+    image-rendering: pixelated;
 }
 
 .name-title {
@@ -474,8 +475,8 @@ html, body {
     }
 
     .headshot canvas {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
     }
 
     .terminal-body {
