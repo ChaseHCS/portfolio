@@ -2,10 +2,11 @@
 const typingAnimations = {
     main: [
         'help',
-        'cat welcome.txt',
+        'bloodyAD -H $ip -d $domain -u $usr -p $pwd add groupMember “Domain Admins” “john.doe”',
         'python3 gradient_descent.py',
-        'git clone https://github.com/ChaseHCS',
-        'sudo nmap -sCV pwned_ip -oN scan_results',
+        'nxc ldap $dcip -u $usr -p $pwd --users-export users.txt',
+        'sudo nmap -sCV $ip -oN scan_results',
+        'ffuf -w ~/Seclists/Discovery/Web-Content/raft-large-directories.txt-u https://target/FUZZ -fc 404 -o ffufdirectories',
     ]
 };
 
