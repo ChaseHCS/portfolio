@@ -13,7 +13,7 @@ let typingInterval = null;
 let deleteInterval = null;
 let pauseTimeout = null;
 
-function initializeTypingAnimation(pageType = 'main') {
+function initializeTypingAnimation(pageType = 'main', initialDelay = 2000) {
     const commands = typingAnimations[pageType] || typingAnimations.main;
     let currentCommandIndex = 0;
     let currentChar = 0;
@@ -55,7 +55,7 @@ function initializeTypingAnimation(pageType = 'main') {
         }, 50);
     }
 
-    pauseTimeout = setTimeout(startTyping, 2000);
+    pauseTimeout = setTimeout(startTyping, initialDelay);
 }
 
 window.addEventListener('beforeunload', function() {

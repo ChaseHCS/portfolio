@@ -65,7 +65,8 @@ function closeMarkdown() {
     directoryListingHTML = null;
     document.querySelector('.pager-status')?.remove();
     document.querySelector('.terminal-body').scrollTop = 0;
-    initializeTypingAnimation('main');
+    document.getElementById('typed-command').textContent = '';
+    initializeTypingAnimation('main', 200);
 }
 
 document.addEventListener('keydown', function(e) {
