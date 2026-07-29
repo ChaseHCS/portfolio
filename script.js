@@ -3,7 +3,95 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTypingAnimation('main');
     updateTmuxClock();
     setInterval(updateTmuxClock, 1000);
+    initBlackHole();
 });
+
+function initBlackHole() {
+    const canvas = document.getElementById('blackhole-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const size = 140;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    ctx.scale(dpr, dpr);
+
+    const cx = size / 2, cy = size / 2;
+    const horizon = 15;      // event horizon radius
+    const squash = 0.32;     // disk inclination: 1 = face-on, 0 = edge-on
+    const colors = ['#ffb86c', '#ff79c6', '#bd93f9', '#ff5555', '#f1fa8c'];
+
+    // accretion disk: particles on Keplerian orbits (inner ones move faster)
+    const particles = [];
+    for (let i = 0; i < 260; i++) {
+        const r = horizon + 5 + Math.pow(Math.random(), 1.6) * 45;
+        particles.push({
+            r,
+            a: Math.random() * Math.PI * 2,
+            w: 55 / Math.pow(r, 1.5),
+            s: 0.6 + Math.random() * 1.2,
+            c: colors[Math.floor(Math.random() * colors.length)]
+        });
+    }
+
+    function drawParticles(list, dim) {
+        for (const p of list) {
+            const x = cx + Math.cos(p.a) * p.r;
+            const y = cy - Math.sin(p.a) * p.r * squash;
+            // brighter toward the horizon, plus doppler beaming on the approaching side
+            const heat = 1 - (p.r - horizon) / 50;
+            ctx.globalAlpha = Math.min(1, dim * (0.25 + 0.75 * heat) * (1 + 0.4 * Math.cos(p.a)));
+            ctx.fillStyle = p.c;
+            ctx.fillRect(x, y, p.s, p.s);
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    function drawHole() {
+        const glow = ctx.createRadialGradient(cx, cy, horizon, cx, cy, horizon * 2.4);
+        glow.addColorStop(0, 'rgba(189, 147, 249, 0.35)');
+        glow.addColorStop(1, 'rgba(189, 147, 249, 0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(cx, cy, horizon * 2.4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = '#f8f8f2';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, horizon + 1, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = '#000';
+        ctx.beginPath();
+        ctx.arc(cx, cy, horizon, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function drawFrame() {
+        ctx.clearRect(0, 0, size, size);
+        const back = [], front = [];
+        for (const p of particles) (Math.sin(p.a) < 0 ? back : front).push(p);
+        drawParticles(back, 0.5);   // far side of the disk, occluded by the hole
+        drawHole();
+        drawParticles(front, 1);
+    }
+
+    let last = performance.now();
+
+    function tick(now) {
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+        for (const p of particles) p.a += p.w * dt;
+        drawFrame();
+        requestAnimationFrame(tick);
+    }
+
+    drawFrame();
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        requestAnimationFrame(tick);
+    }
+}
 
 function updateTmuxClock() {
     const clock = document.getElementById('tmux-clock');

@@ -26,4 +26,4 @@ Single-page terminal-themed blog — everything lives at the repo root, there ar
 - Posts are plain `.md` files at the repo root (currently `methodology.md`, `deeplearning-course-notes.md`). They are **not** discovered dynamically — adding a post means dropping the `.md` file at the root *and* manually adding a matching `.file-item`/`showMarkdown('file.md')` row in `index.html`'s listing.
 - `typing-animation.js` exports `initializeTypingAnimation(pageType)`, which looks up a command list from the `typingAnimations` object (currently only the `main` key is used) and types/deletes it into `#typed-command` on `DOMContentLoaded`.
 - `style.css` defines the terminal look (dark theme, `#FA3A62`/`#FA5741` accent colors) and the responsive breakpoints that collapse the sidebar to an icon under 1024px/768px.
-- `assets/` holds `pfpic.png` and `resume.pdf`, referenced by relative path from the root.
+- `assets/` holds `resume.pdf`, referenced by relative path from the root.

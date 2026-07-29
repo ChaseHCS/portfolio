@@ -41,12 +41,9 @@ html, body {
     text-align: center;
 }
 
-.headshot img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 3px solid #ff79c6;
-    object-fit: cover;
+.headshot canvas {
+    width: 140px;
+    height: 140px;
 }
 
 .name-title {
@@ -476,9 +473,9 @@ html, body {
         pointer-events: auto;
     }
 
-    .headshot img {
-        width: 80px;
-        height: 80px;
+    .headshot canvas {
+        width: 100px;
+        height: 100px;
     }
 
     .terminal-body {
