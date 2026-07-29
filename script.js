@@ -10,56 +10,86 @@ function initBlackHole() {
     const canvas = document.getElementById('blackhole-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    const size = 140;
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = size * dpr;
-    canvas.height = size * dpr;
-    ctx.scale(dpr, dpr);
+    const size = 64;    // low-res buffer; CSS upscales it with image-rendering: pixelated
+    canvas.width = size;
+    canvas.height = size;
 
     const cx = size / 2, cy = size / 2;
-    const horizon = 15;      // event horizon radius
-    const squash = 0.32;     // disk inclination: 1 = face-on, 0 = edge-on
-    const colors = ['#ffb86c', '#ff79c6', '#bd93f9', '#ff5555', '#f1fa8c'];
+    const horizon = 10;      // event horizon radius
+    const squash = 0.16;     // near edge-on disk, like Gargantua
+    const colors = ['#f8f8f2', '#ffd9a0', '#ffb86c', '#f1fa8c'];
 
-    // accretion disk: particles on Keplerian orbits (inner ones move faster)
+    // thin accretion disk: particles on Keplerian orbits (inner ones move faster)
     const particles = [];
-    for (let i = 0; i < 260; i++) {
-        const r = horizon + 5 + Math.pow(Math.random(), 1.6) * 45;
+    for (let i = 0; i < 520; i++) {
+        const r = horizon + 2 + Math.pow(Math.random(), 2) * 18;
         particles.push({
             r,
             a: Math.random() * Math.PI * 2,
-            w: 55 / Math.pow(r, 1.5),
-            s: 0.6 + Math.random() * 1.2,
+            w: 30 / Math.pow(r, 1.5),
             c: colors[Math.floor(Math.random() * colors.length)]
         });
     }
 
-    function drawParticles(list, dim) {
+    function heatAlpha(p, m) {
+        // brighter toward the horizon, doppler-beamed on the approaching side
+        const heat = 1 - (p.r - horizon) / 22;
+        return Math.min(1, (0.4 + 0.6 * heat) * (1 + 0.5 * Math.cos(m)));
+    }
+
+    function plot(x, y, color, alpha) {
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = color;
+        ctx.fillRect(x | 0, y | 0, 1, 1);
+    }
+
+    // near side of the disk: a flat band crossing in front of the sphere
+    function drawFront(list) {
         for (const p of list) {
-            const x = cx + Math.cos(p.a) * p.r;
-            const y = cy - Math.sin(p.a) * p.r * squash;
-            // brighter toward the horizon, plus doppler beaming on the approaching side
-            const heat = 1 - (p.r - horizon) / 50;
-            ctx.globalAlpha = Math.min(1, dim * (0.25 + 0.75 * heat) * (1 + 0.4 * Math.cos(p.a)));
-            ctx.fillStyle = p.c;
-            ctx.fillRect(x, y, p.s, p.s);
+            const m = p.a % (Math.PI * 2);
+            const x = cx + Math.cos(m) * p.r;
+            const y = cy - Math.sin(m) * p.r * squash;
+            plot(x, y, p.c, heatAlpha(p, m));
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    // far side of the disk: gravitationally lensed into arcs over and under
+    // the sphere instead of hiding behind it, like Gargantua's halo
+    function drawLensed(list) {
+        for (const p of list) {
+            const m = p.a % (Math.PI * 2);
+            const u = (m - Math.PI) / Math.PI;      // 0..1 across the far side
+            const psi = Math.PI * (1 - u);          // side -> over the top -> side
+            const blend = Math.sin(psi);            // how "bent" the light path is
+            const alpha = heatAlpha(p, m);
+
+            // primary image: arc over the top, hugging the photon ring
+            const ringR = horizon + 2 + (p.r - horizon) * 0.12;
+            const R = p.r + (ringR - p.r) * blend;
+            plot(cx + Math.cos(psi) * R, cy - Math.sin(psi) * R, p.c, alpha);
+
+            // secondary image: dimmer, tighter mirror arc under the sphere
+            const ringR2 = horizon + 1 + (p.r - horizon) * 0.07;
+            const R2 = p.r + (ringR2 - p.r) * blend;
+            plot(cx + Math.cos(psi) * R2, cy + Math.sin(psi) * R2, p.c, alpha * 0.45);
         }
         ctx.globalAlpha = 1;
     }
 
     function drawHole() {
-        const glow = ctx.createRadialGradient(cx, cy, horizon, cx, cy, horizon * 2.4);
-        glow.addColorStop(0, 'rgba(189, 147, 249, 0.35)');
-        glow.addColorStop(1, 'rgba(189, 147, 249, 0)');
+        const glow = ctx.createRadialGradient(cx, cy, horizon, cx, cy, horizon * 2);
+        glow.addColorStop(0, 'rgba(255, 184, 108, 0.3)');
+        glow.addColorStop(1, 'rgba(255, 184, 108, 0)');
         ctx.fillStyle = glow;
         ctx.beginPath();
-        ctx.arc(cx, cy, horizon * 2.4, 0, Math.PI * 2);
+        ctx.arc(cx, cy, horizon * 2, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.strokeStyle = '#f8f8f2';
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = '#fff8f0';
+        ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.arc(cx, cy, horizon + 1, 0, Math.PI * 2);
+        ctx.arc(cx, cy, horizon + 0.5, 0, Math.PI * 2);
         ctx.stroke();
 
         ctx.fillStyle = '#000';
@@ -70,11 +100,14 @@ function initBlackHole() {
 
     function drawFrame() {
         ctx.clearRect(0, 0, size, size);
-        const back = [], front = [];
-        for (const p of particles) (Math.sin(p.a) < 0 ? back : front).push(p);
-        drawParticles(back, 0.5);   // far side of the disk, occluded by the hole
+        const front = [], back = [];
+        for (const p of particles) {
+            const m = p.a % (Math.PI * 2);
+            (Math.sin(m) < 0 ? back : front).push(p);
+        }
+        drawLensed(back);
         drawHole();
-        drawParticles(front, 1);
+        drawFront(front);
     }
 
     let last = performance.now();
