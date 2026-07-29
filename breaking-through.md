@@ -15,6 +15,6 @@ Offsec was having a winter deal at the end of ‘25 that gave you 9 months of la
 Coming off the third attempt I realized there were a couple of areas (particularly **web attacks**) that I needed to sharpen up on before I passed. I dedicated the next three months to that particular attack surface. Finally, on *June 23 2026*, OffSec notified me that I had **passed the OSCP with 70 points**.
 
 ## Where I went wrong
-* **Treating it like PenTest+:** OSCP is not a multiple choice test and shouldn’t be treated as such. It is truly a *domain expertise* exam. Cramming study materials will not work the way it does for CompTIA exams.
-* **Not having a good foundation:** In the early part of my Cybersecurity career I treated it as a game where I tried to collect the most amount of credentials in the shortest amount of time. I had <mark>zero foundation</mark> or technical understanding of computers and operating systems at the most fundamental level.
-* **Not interacting with the community:** OffSec fosters an awesome community. Their discord is awesome and they have really smart people helping you with the labs. I never fully leveraged the community and really wish I would've.
+- **Treating it like PenTest+:** OSCP is not a multiple choice test and shouldn’t be treated as such. It is truly a *domain expertise* exam. Cramming study materials will not work the way it does for CompTIA exams.
+- **Not having a good foundation:** In the early part of my Cybersecurity career I treated it as a game where I tried to collect the most amount of credentials in the shortest amount of time. I had <mark>zero foundation</mark> or technical understanding of computers and operating systems at the most fundamental level.
+- **Not interacting with the community:** OffSec fosters an awesome community. Their discord is awesome and they have really smart people helping you with the labs. I never fully leveraged the community and really wish I would've.
