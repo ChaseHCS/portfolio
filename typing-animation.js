@@ -2,39 +2,11 @@
 const typingAnimations = {
     main: [
         'help',
-        'cat welcome.txt',
+        'bloodyAD -H $ip -d $domain -u $usr -p $pwd add groupMember “Domain Admins” “john.doe”',
         'python3 gradient_descent.py',
-        'git clone https://github.com/ChaseHCS',
-        'sudo nmap -sCV pwned_ip -oN scan_results',
-    ],
-    'Blog-Posts': [
-        'firefox https://x.com',
-        'nano to-do-list.md',
-        'grep -r "cybersecurity"',
-        'mkdir LLama_7B_param',
-        'git add .'
-    ],
-    'Projects': [
-        'cat project.md',
-        'ls -la',
-        'npm install',
-        'git clone',
-        'docker build'
-    ],
-    'AI-Writeups': [
-        'cat machine-learning-basics.md',
-        'nano neural-network-architectures.md',
-        'grep -r "tensorflow"',
-        'python3 train_model.py',
-        'pip install PyTorch'
-    ],
-    'Hacking-Writeups': [
-        'rustscan --ulimit 5000 -a box.htb -- -A -sCV -oN box.scan',
-        'msfconsole',
-        'find / -perm -u=s -type f 2>/dev/null',
-        'john --wordlist=rockyou.txt hashes',
-        'feroxbuster -u http://box.htb --auto-bail -d 0 -E -w /usr/SecLists/top-1-million.txt -o ferox.scan',
-        'sqlmap -u "http://target/?id=1"'
+        'nxc ldap $dcip -u $usr -p $pwd --users-export users.txt',
+        'sudo nmap -sCV $ip -oN scan_results',
+        'ffuf -w ~/Seclists/Discovery/Web-Content/raft-large-directories.txt-u https://target/FUZZ -fc 404 -o ffufdirectories',
     ]
 };
 
@@ -42,7 +14,7 @@ let typingInterval = null;
 let deleteInterval = null;
 let pauseTimeout = null;
 
-function initializeTypingAnimation(pageType = 'main') {
+function initializeTypingAnimation(pageType = 'main', initialDelay = 2000) {
     const commands = typingAnimations[pageType] || typingAnimations.main;
     let currentCommandIndex = 0;
     let currentChar = 0;
@@ -84,7 +56,7 @@ function initializeTypingAnimation(pageType = 'main') {
         }, 50);
     }
 
-    pauseTimeout = setTimeout(startTyping, 2000);
+    pauseTimeout = setTimeout(startTyping, initialDelay);
 }
 
 window.addEventListener('beforeunload', function() {
